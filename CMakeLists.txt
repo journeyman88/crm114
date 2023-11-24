@@ -49,12 +49,29 @@ target_include_directories(crm PUBLIC ${LIBTRE_INCLUDE_DIRS})
 target_compile_options(crm PUBLIC ${LIBTRE_CFLAGS_OTHER})
 
 # Installation
+# bin
 install(TARGETS cssutil DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(TARGETS cssdiff DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(TARGETS cssmerge DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(TARGETS osbf-util DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(TARGETS crm DESTINATION ${CMAKE_INSTALL_BINDIR})
 
+# man pages
 foreach(manpage ${manual_pages})
 	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${manpage} DESTINATION ${CMAKE_INSTALL_FULL_MANDIR}/man1)
 endforeach()
+
+# scripts
+foreach(crm_script ${crm_scripts})
+	install(FILES ${crm_script} DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/crm114)
+endforeach()
+
+# emacs
+install(FILES crm114-mode.el DESTINATION ${CMAKE_INSTALL_FULL_DATAROOTDIR}/emacs/site-lisp/)
+
+# docs & examples
+install(DIRECTORY examples DESTINATION ${CMAKE_INSTALL_FULL_DOCDIR})
+foreach(crm_doc ${crm_docs})
+	install(FILES ${crm_doc} DESTINATION ${CMAKE_INSTALL_FULL_DOCDIR})
+endforeach()
+#SYSCONFDIR

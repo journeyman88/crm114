@@ -1,2 +1,0 @@
-somebody_you_trust spam their_secret_code
-somebody_you_trust nonspam their_nonspam_secret_code

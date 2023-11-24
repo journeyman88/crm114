@@ -7,12 +7,12 @@
 # This file is under GPLv3, as described in COPYING.
 #
 
-./crm114 -v
-./crm114 bracktest.crm
-./crm114 escapetest.crm
-./crm114 fataltraptest.crm
-./crm114 inserttest_a.crm
-./crm114 matchtest.crm  <<-EOF
+build/crm -v
+build/crm tests/bracktest.crm
+build/crm tests/escapetest.crm
+build/crm tests/fataltraptest.crm
+build/crm tests/inserttest_a.crm
+build/crm tests/matchtest.crm  <<-EOF
 exact: you should see this foo ZZZ
 exact: you should NOT see this FoO ZZZ
 absent: There is no "f-word" here ZZZ
@@ -48,27 +48,27 @@ independent-start-end: foo bar foo 1 2 bar ZZZ
 independent-start-end: foo 1 foo bar 2 bar ZZZ
 independent-start-end: foo 2 bar 1 bar foo ZZZ
 EOF
-./crm114 backwardstest.crm  <<-EOF
+build/crm tests/backwardstest.crm  <<-EOF
 foo bar baz
 EOF
-./crm114 backwardstest.crm  <<-EOF
+build/crm tests/backwardstest.crm  <<-EOF
 bar foo baz
 EOF
-./crm114 overalterisolatedtest.crm
-./crm114 rewritetest.crm
-./crm114 skudtest.crm
-./crm114 statustest.crm
-./crm114 unionintersecttest.crm
-./crm114 beeptest.crm
-./crm114 defaulttest.crm
-./crm114 defaulttest.crm --blah="command override"
-./crm114 windowtest.crm  <<-EOF
+build/crm tests/overalterisolatedtest.crm
+build/crm tests/rewritetest.crm
+build/crm tests/skudtest.crm
+build/crm tests/statustest.crm
+build/crm tests/unionintersecttest.crm
+build/crm tests/beeptest.crm
+build/crm tests/defaulttest.crm
+build/crm tests/defaulttest.crm --blah="command override"
+build/crm tests/windowtest.crm  <<-EOF
 This is the test one result A this is the test two result A this is the test three result A this is the test four result A this is the test 5 result A this is the test six result A this is extra stuff and should never be seen.
 EOF
-./crm114 windowtest_fromvar.crm  <<-EOF
+build/crm tests/windowtest_fromvar.crm  <<-EOF
 This is the test one result A this is the test two result A this is the test three result A this is the test four result A this is the test 5 result A this is the test six result A this is extra stuff and should trigger exit from the loop since it doesn't have the proper delimiter.
 EOF
-./crm114 approxtest.crm  <<-EOF
+build/crm tests/approxtest.crm  <<-EOF
 (foo) {1}
 (fou){~}
 (foo) {1}
@@ -214,173 +214,146 @@ EOF
 ([a-n]){3,100}
 ([a-n]){3,100}?
 EOF
-./crm114 mathalgtest.crm
-./crm114 mathrpntest.crm -q 1
-./crm114 eval_infiniteloop.crm
-./crm114 randomiotest.crm
-./crm114 paolo_overvars.crm
-./crm114 paolo_ov2.crm
-./crm114 paolo_ov3.crm
-./crm114 paolo_ov4.crm
-./crm114 paolo_ov5.crm
-./crm114 match_isolate_test.crm -e
-./crm114 match_isolate_reclaim.crm -e
-./crm114 call_return_test.crm
-./crm114 translate_tr.crm
-./crm114 zz_translate_test.crm
-./crm114 quine.crm
-./crm114 '-{window; isolate (:s:); syscall () (:s:) /echo one two three/; output /:*:s:/}'
-./crm114 '-{window; output / \n***** checking return and exit codes \n/}'
-./crm114 '-{window; isolate (:s:); syscall () () (:s:) /exit 123/; output / Status: :*:s: \n/}'
-./crm114 '-{window; output /\n***** check that failed syscalls will code right\n/}'
-./crm114 '-{window; isolate (:s:); syscall () () (:s:) /jibberjabber 2>&1 /; output / Status: :*:s: \n/}'
+build/crm tests/mathalgtest.crm
+build/crm tests/mathrpntest.crm -q 1
+build/crm tests/eval_infiniteloop.crm
+build/crm tests/randomiotest.crm
+build/crm tests/paolo_overvars.crm
+build/crm tests/paolo_ov2.crm
+build/crm tests/paolo_ov3.crm
+build/crm tests/paolo_ov4.crm
+build/crm tests/paolo_ov5.crm
+build/crm tests/match_isolate_test.crm -e
+build/crm tests/match_isolate_reclaim.crm -e
+build/crm tests/call_return_test.crm
+build/crm tests/translate_tr.crm
+build/crm tests/zz_translate_test.crm
+build/crm tests/quine.crm
+build/crm '-{window; isolate (:s:); syscall () (:s:) /echo one two three/; output /:*:s:/}'
+build/crm '-{window; output / \n***** checking return and exit codes \n/}'
+build/crm '-{window; isolate (:s:); syscall () () (:s:) /exit 123/; output / Status: :*:s: \n/}'
+build/crm '-{window; output /\n***** check that failed syscalls will code right\n/}'
+build/crm '-{window; isolate (:s:); syscall () () (:s:) /jibberjabber 2>&1 /; output / Status: :*:s: \n/}'
 
-./crm114 indirecttest.crm
+build/crm tests/indirecttest.crm
 rm -f randtst.txt
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n ****  Default (SBPH Markovian) classifier \n/}'
-./crm114 '-{learn (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:) {classify ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{window; output /\n ****  Default (SBPH Markovian) classifier \n/}'
+build/crm '-{learn (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:) {classify ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:) {classify ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:) {classify ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** OSB Markovian classifier \n/}'
-./crm114 '-{learn <osb> (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn <osb> (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify <osb> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** OSB Markovian classifier \n/}'
+build/crm '-{learn <osb> (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn <osb> (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify <osb> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <osb> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <osb> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** OSB Markov Unique classifier \n/}'
-./crm114 '-{learn <osb unique > (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn <osb unique > (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify <osb unique> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** OSB Markov Unique classifier \n/}'
+build/crm '-{learn <osb unique > (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn <osb unique > (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify <osb unique> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <osb unique> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <osb unique> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** OSB Markov Chisquared Unique classifier \n/}'
-./crm114 '-{learn <osb unique chi2> (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn <osb unique chi2> (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify <osb unique chi2 > ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** OSB Markov Chisquared Unique classifier \n/}'
+build/crm '-{learn <osb unique chi2> (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn <osb unique chi2> (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify <osb unique chi2 > ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <osb unique chi2> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <osb unique chi2> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** OSBF Local Confidence (Fidelis) classifier \n/}'
-./crm114 '-{learn < osbf > (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn < osbf > (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify <osbf> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** OSBF Local Confidence (Fidelis) classifier \n/}'
+build/crm '-{learn < osbf > (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn < osbf > (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify <osbf> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <osbf> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <osbf> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output / \n**** OSB Winnow classifier \n/}'
-./crm114 '-{learn <winnow> (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn <winnow refute> (a_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{learn <winnow> (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{learn <winnow refute> (m_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{ isolate (:s:); {classify <winnow> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }       '  <<-EOF
+build/crm '-{window; output / \n**** OSB Winnow classifier \n/}'
+build/crm '-{learn <winnow> (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn <winnow refute> (a_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{learn <winnow> (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{learn <winnow refute> (m_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{ isolate (:s:); {classify <winnow> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }       '  <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <winnow> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}      ' <<-EOF
+build/crm '-{ isolate (:s:); {classify <winnow> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}      ' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
-./crm114 '-{ window; output /\n\n**** Now verify that winnow learns affect only the named file (m_test.css)\n/}'
-./crm114 '-{learn <winnow> (m_test.css) /[[:graph:]]+/}' < Hound_of_the_Baskervilles_first_500_lines.txt
-./crm114 '-{ isolate (:s:); {classify <winnow> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}      ' <<-EOF
+build/crm '-{ window; output /\n\n**** Now verify that winnow learns affect only the named file (m_test.css)\n/}'
+build/crm '-{learn <winnow> (m_test.css) /[[:graph:]]+/}' < texts/Hound_of_the_Baskervilles_first_500_lines.txt
+build/crm '-{ isolate (:s:); {classify <winnow> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}      ' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
-./crm114 '-{window; output /\n\n and now refute-learn into a_test.css\n/}'
-./crm114 '-{learn <winnow refute > (a_test.css) /[[:graph:]]+/}' < The_Wind_in_the_Willows_Chap_1.txt
-./crm114 '-{ isolate (:s:); {classify <winnow> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}      ' <<-EOF
+build/crm '-{window; output /\n\n and now refute-learn into a_test.css\n/}'
+build/crm '-{learn <winnow refute > (a_test.css) /[[:graph:]]+/}' < texts/The_Wind_in_the_Willows_Chap_1.txt
+build/crm '-{ isolate (:s:); {classify <winnow> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}      ' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** Unigram Bayesian classifier \n/}'
-./crm114 '-{learn <unigram> (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn <unigram> (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify <unigram> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** Unigram Bayesian classifier \n/}'
+build/crm '-{learn <unigram> (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn <unigram> (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify <unigram> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <unigram> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <unigram> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output / \n**** unigram Winnow classifier \n/}'
-./crm114 '-{learn <winnow unigram > (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn <winnow unigram refute> (a_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{learn <winnow unigram> (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{learn <winnow unigram refute> (m_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{ isolate (:s:); {classify <winnow unigram> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }       '  <<-EOF
+build/crm '-{window; output / \n**** unigram Winnow classifier \n/}'
+build/crm '-{learn <winnow unigram > (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn <winnow unigram refute> (a_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{learn <winnow unigram> (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{learn <winnow unigram refute> (m_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{ isolate (:s:); {classify <winnow unigram> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }       '  <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <winnow unigram> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}      ' <<-EOF
-    Double, double toil and trouble;
-    Fire burn, and cauldron bubble.
-EOF
-
-
-rm -f m_test.css
-rm -f a_test.css
-./crm114 '-{window; output /\n**** OSB Hyperspace classifier \n/}'
-./crm114 '-{learn <hyperspace unique> (a_test.css) }' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn <hyperspace unique> (m_test.css) }' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify <hyperspace> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
-when suddenly a White Rabbit with pink eyes ran close to her.
-EOF
-./crm114 '-{ isolate (:s:); {classify <hyperspace> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
-    Double, double toil and trouble;
-    Fire burn, and cauldron bubble.
-EOF
-
-rm -f m_test.css
-rm -f a_test.css
-./crm114 '-{window; output /\n**** OSB three-letter Hyperspace classifier \n/}'
-./crm114 '-{learn <hyperspace unigram> (a_test.css) /\w\w\w/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn <hyperspace unigram> (m_test.css) /\w\w\w/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify <hyperspace unigram> ( m_test.css | a_test.css ) (:s:) /\w\w\w/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
-when suddenly a White Rabbit with pink eyes ran close to her.
-EOF
-./crm114 '-{ isolate (:s:); {classify <hyperspace unigram> ( m_test.css | a_test.css ) (:s:) /\w\w\w/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <winnow unigram> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}      ' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
@@ -388,56 +361,83 @@ EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** Unigram Hyperspace classifier \n/}'
-./crm114 '-{learn < hyperspace unique unigram> (a_test.css) }' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn < hyperspace unique unigram> (m_test.css) }' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify < hyperspace unigram> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** OSB Hyperspace classifier \n/}'
+build/crm '-{learn <hyperspace unique> (a_test.css) }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn <hyperspace unique> (m_test.css) }' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify <hyperspace> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <hyperspace unigram> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <hyperspace> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** String Hyperspace classifier \n/}'
-./crm114 '-{learn < hyperspace string> (a_test.css) }' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn < hyperspace string> (m_test.css) }' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify < hyperspace string> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** OSB three-letter Hyperspace classifier \n/}'
+build/crm '-{learn <hyperspace unigram> (a_test.css) /\w\w\w/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn <hyperspace unigram> (m_test.css) /\w\w\w/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify <hyperspace unigram> ( m_test.css | a_test.css ) (:s:) /\w\w\w/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <hyperspace string> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <hyperspace unigram> ( m_test.css | a_test.css ) (:s:) /\w\w\w/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+    Double, double toil and trouble;
+    Fire burn, and cauldron bubble.
+EOF
+
+
+rm -f m_test.css
+rm -f a_test.css
+build/crm '-{window; output /\n**** Unigram Hyperspace classifier \n/}'
+build/crm '-{learn < hyperspace unique unigram> (a_test.css) }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn < hyperspace unique unigram> (m_test.css) }' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify < hyperspace unigram> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+when suddenly a White Rabbit with pink eyes ran close to her.
+EOF
+build/crm '-{ isolate (:s:); {classify <hyperspace unigram> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** String Unigram Hyperspace classifier \n/}'
-./crm114 '-{learn < hyperspace string unigram> (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn < hyperspace string unigram> (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify < hyperspace string unigram> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** String Hyperspace classifier \n/}'
+build/crm '-{learn < hyperspace string> (a_test.css) }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn < hyperspace string> (m_test.css) }' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify < hyperspace string> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <hyperspace string unigram> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <hyperspace string> ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** Vector 3-word-bag Hyperspace classifier \n/}'
+build/crm '-{window; output /\n**** String Unigram Hyperspace classifier \n/}'
+build/crm '-{learn < hyperspace string unigram> (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn < hyperspace string unigram> (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify < hyperspace string unigram> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+when suddenly a White Rabbit with pink eyes ran close to her.
+EOF
+build/crm '-{ isolate (:s:); {classify <hyperspace string unigram> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+    Double, double toil and trouble;
+    Fire burn, and cauldron bubble.
+EOF
+
+rm -f m_test.css
+rm -f a_test.css
+build/crm '-{window; output /\n**** Vector 3-word-bag Hyperspace classifier \n/}'
 #    the "vector: blahblah" is coded by the desired length of the pipeline,
 #    then the number of iterations of the pipe, then pipelen * iters
 #    integer coefficients.  Missing coefficients are taken as zero,
 #    extra coefficients are disregarded.
-./crm114 '-{learn < hyperspace > (a_test.css) /[[:graph:]]+/ /vector: 3 1 1 1 1 / }' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn < hyperspace > (m_test.css) /[[:graph:]]+/ /vector: 3 1 1 1 1/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify < hyperspace > ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ /vector: 3 1 1 1 1  /; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{learn < hyperspace > (a_test.css) /[[:graph:]]+/ /vector: 3 1 1 1 1 / }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn < hyperspace > (m_test.css) /[[:graph:]]+/ /vector: 3 1 1 1 1/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify < hyperspace > ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ /vector: 3 1 1 1 1  /; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <hyperspace > ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ /vector: 3 1 1 1 1 /; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <hyperspace > ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ /vector: 3 1 1 1 1 /; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
@@ -445,39 +445,39 @@ EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** Bit-Entropy classifier \n/}'
-./crm114 '-{learn < entropy unique crosslink> (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn < entropy unique crosslink> (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify < entropy unique crosslink> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** Bit-Entropy classifier \n/}'
+build/crm '-{learn < entropy unique crosslink> (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn < entropy unique crosslink> (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify < entropy unique crosslink> ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify <entropy unique crosslink> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify <entropy unique crosslink> ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** Bit-Entropy Toroid classifier \n/}'
-./crm114 '-{learn < entropy > (a_test.css) /[[:graph:]]+/}' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn < entropy > (m_test.css) /[[:graph:]]+/}' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify < entropy > ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** Bit-Entropy Toroid classifier \n/}'
+build/crm '-{learn < entropy > (a_test.css) /[[:graph:]]+/}' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn < entropy > (m_test.css) /[[:graph:]]+/}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify < entropy > ( m_test.css | a_test.css ) (:s:)/[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify < entropy > ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify < entropy > ( m_test.css | a_test.css ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
-./crm114 '-{window; output /\n**** Fast Substring Compression Match Classifier \n/}'
-./crm114 '-{learn < fscm > (a_test.css) }' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn < fscm > (m_test.css) }' < Macbeth_Act_IV.txt
-./crm114 '-{ isolate (:s:); {classify < fscm > ( m_test.css | a_test.css ) (:s:)  ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{window; output /\n**** Fast Substring Compression Match Classifier \n/}'
+build/crm '-{learn < fscm > (a_test.css) }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn < fscm > (m_test.css) }' < texts/Macbeth_Act_IV.txt
+build/crm '-{ isolate (:s:); {classify < fscm > ( m_test.css | a_test.css ) (:s:)  ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:); {classify < fscm > ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify < fscm > ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
@@ -485,21 +485,21 @@ EOF
 rm -f m_test.css
 rm -f a_test.css
 
-./crm114 '-{window; output /\n**** Neural Network Classifier \n/}'
-./crm114 '-{learn < neural append > (a_test.css) }' <<-EOF
+build/crm '-{window; output /\n**** Neural Network Classifier \n/}'
+build/crm '-{learn < neural append > (a_test.css) }' <<-EOF
 a
 EOF
-./crm114 '-{learn < neural append > (a_test.css) }' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{learn < neural refute fromstart > (a_test.css) }' < Macbeth_Act_IV.txt
-./crm114 '-{learn < neural append > (m_test.css) }' <<-EOF
+build/crm '-{learn < neural append > (a_test.css) }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{learn < neural refute fromstart > (a_test.css) }' < texts/Macbeth_Act_IV.txt
+build/crm '-{learn < neural append > (m_test.css) }' <<-EOF
 b
 EOF
-./crm114 '-{learn < neural append > (m_test.css) }' < Macbeth_Act_IV.txt
-./crm114 '-{learn < neural refute fromstart > (m_test.css) }' < Alice_In_Wonderland_Chap_1_And_2.txt
-./crm114 '-{ isolate (:s:); {classify < neural > ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{learn < neural append > (m_test.css) }' < texts/Macbeth_Act_IV.txt
+build/crm '-{learn < neural refute fromstart > (m_test.css) }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{ isolate (:s:); {classify < neural > ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 So she was considering, in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her.
 EOF
-./crm114 '-{ isolate (:s:); {classify < neural > ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify < neural > ( m_test.css | a_test.css ) (:s:) ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Fillet of a fenny snake,
     In the cauldron boil and bake;
     Eye of newt and toe of frog,
@@ -513,37 +513,37 @@ EOF
 rm -f m_test.css
 rm -f a_test.css
 
-./crm114 alternating_example_neural.crm
+build/crm tests/alternating_example_neural.crm
 
 rm -f m_test.css
 rm -f a_test.css
 
-./crm114 '-{window; output /\n**** Support Vector Machine (SVM) unigram classifier \n/}'
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < svm unigram unique > (m_test.css) /[[:graph:]]+/; liaf}' < Macbeth_Act_IV.txt
+build/crm '-{window; output /\n**** Support Vector Machine (SVM) unigram classifier \n/}'
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < svm unigram unique > (m_test.css) /[[:graph:]]+/; liaf}' < texts/Macbeth_Act_IV.txt
 
 
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < svm unigram refute unique > (m_test.css) /[[:graph:]]+/; liaf }' < Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < svm unigram refute unique > (m_test.css) /[[:graph:]]+/; liaf }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
 
-./crm114 '-{ isolate (:s:); {classify < svm unigram unique > ( m_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{ isolate (:s:); {classify < svm unigram unique > ( m_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
 
-./crm114 '-{ isolate (:s:); {classify < svm unigram unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify < svm unigram unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 
-./crm114 '-{window; output /\n**** Support Vector Machine (SVM) classifier \n/}'
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < svm unique > (m_test.css) /[[:graph:]]+/; liaf}' < Macbeth_Act_IV.txt
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < svm unique refute > (m_test.css) /[[:graph:]]+/; liaf }' < Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{window; output /\n**** Support Vector Machine (SVM) classifier \n/}'
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < svm unique > (m_test.css) /[[:graph:]]+/; liaf}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < svm unique refute > (m_test.css) /[[:graph:]]+/; liaf }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
 
-./crm114 '-{ isolate (:s:); {classify < svm unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{ isolate (:s:); {classify < svm unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
 
-./crm114 '-{ isolate (:s:); {classify < svm unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify < svm unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
@@ -552,22 +552,22 @@ rm -f m_test.css
 rm -f a_test.css
 rm -f m_vs_a_test.css
 
-./crm114 alternating_example_svm.crm
+build/crm tests/alternating_example_svm.crm
 
 rm -f m_test.css
 rm -f a_test.css
 
-./crm114 '-{window; output /\n**** String Kernel SVM (SKS) classifier \n/}'
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < sks > (m_test.css) /[[:graph:]]+/; liaf}' < Macbeth_Act_IV.txt
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < sks > (a_test.css) /[[:graph:]]+/; liaf }' < Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{window; output /\n**** String Kernel SVM (SKS) classifier \n/}'
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < sks > (m_test.css) /[[:graph:]]+/; liaf}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < sks > (a_test.css) /[[:graph:]]+/; liaf }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
 #    build the actual hyperplanes
-./crm114 '-{window; learn ( m_test.css | a_test.css | m_vs_a_test.css ) < sks > /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ }'
+build/crm '-{window; learn ( m_test.css | a_test.css | m_vs_a_test.css ) < sks > /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ }'
 
-./crm114 '-{ isolate (:s:); {classify < sks > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{ isolate (:s:); {classify < sks > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
 
-./crm114 '-{ isolate (:s:); {classify < sks > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify < sks > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
@@ -575,17 +575,17 @@ rm -f m_vs_a_test.css
 rm -f m_test.css
 rm -f a_test.css
 
-./crm114 '-{window; output /\n**** String Kernel SVM (SKS) Unique classifier \n/}'
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; translate [:one_paragraph:] (:one_paragraph:) /.,!?@#$%^&*()/; learn [:one_paragraph:] < sks unique > (m_test.css) /[[:graph:]]+/ / 0 0 100 0.001 1 1 4/; liaf}' < Macbeth_Act_IV.txt
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/;  translate [:one_paragraph:] (:one_paragraph:) /.,!?@#$%^&*()/; learn [:one_paragraph:] < sks unique > (a_test.css) /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ ; liaf }' < Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{window; output /\n**** String Kernel SVM (SKS) Unique classifier \n/}'
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; translate [:one_paragraph:] (:one_paragraph:) /.,!?@#$%^&*()/; learn [:one_paragraph:] < sks unique > (m_test.css) /[[:graph:]]+/ / 0 0 100 0.001 1 1 4/; liaf}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/;  translate [:one_paragraph:] (:one_paragraph:) /.,!?@#$%^&*()/; learn [:one_paragraph:] < sks unique > (a_test.css) /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ ; liaf }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
 #    build the actual hyperplanes
-./crm114 '-{window; learn ( m_test.css | a_test.css | m_vs_a_test.css ) < sks unique > /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ }'
+build/crm '-{window; learn ( m_test.css | a_test.css | m_vs_a_test.css ) < sks unique > /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ }'
 
-./crm114 '-{ isolate (:s:);  translate /.,!?@#$%^&*()/; {classify < sks unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{ isolate (:s:);  translate /.,!?@#$%^&*()/; {classify < sks unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
 
-./crm114 '-{ isolate (:s:); translate /.,!?@#$%^&*()/; {classify < sks unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); translate /.,!?@#$%^&*()/; {classify < sks unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 0.001 1 1 4/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
@@ -595,11 +595,11 @@ rm -f m_test.css
 rm -f a_test.css
 
 
-./crm114 '-{window ; output /\n**** Bytewise Correlation classifier \n/}'
-./crm114 '-{ isolate (:s:) {classify <correlate> ( Macbeth_Act_IV.txt | Alice_In_Wonderland_Chap_1_And_2.txt ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{window ; output /\n**** Bytewise Correlation classifier \n/}'
+build/crm '-{ isolate (:s:) {classify <correlate> ( Macbeth_Act_IV.txt | Alice_In_Wonderland_Chap_1_And_2.txt ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
-./crm114 '-{ isolate (:s:) {classify <correlate> ( Macbeth_Act_IV.txt | Alice_In_Wonderland_Chap_1_And_2.txt ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:) {classify <correlate> ( Macbeth_Act_IV.txt | Alice_In_Wonderland_Chap_1_And_2.txt ) (:s:) /[[:graph:]]+/ ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Fillet of a fenny snake,
     In the cauldron boil and bake;
     Eye of newt and toe of frog,
@@ -613,15 +613,15 @@ EOF
 rm -f m_test.css
 rm -f a_test.css
 
-./crm114 '-{window; output /\n**** Clump \/ Pmulc Test \n/}'
+build/crm '-{window; output /\n**** Clump \/ Pmulc Test \n/}'
 
-./crm114 '-{ match <fromend> (:one_paragraph:) /([[:graph:]]+.*?\n\n){5}/; clump <bychunk> [:one_paragraph:] (m_test.css) /[[:graph:]]+/; output /./ ; liaf}' < Macbeth_Act_IV.txt
+build/crm '-{ match <fromend> (:one_paragraph:) /([[:graph:]]+.*?\n\n){5}/; clump <bychunk> [:one_paragraph:] (m_test.css) /[[:graph:]]+/; output /./ ; liaf}' < texts/Macbeth_Act_IV.txt
 
-./crm114 '-{ match <fromend> (:one_paragraph:) /([[:graph:]]+.*?\n\n){5}/; clump [:one_paragraph:] <bychunk> (m_test.css) /[[:graph:]]+/; output /./; liaf }' < Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{ match <fromend> (:one_paragraph:) /([[:graph:]]+.*?\n\n){5}/; clump [:one_paragraph:] <bychunk> (m_test.css) /[[:graph:]]+/; output /./; liaf }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
 
 #    Now see where our paragraphs go to
 
-./crm114 '-{ isolate (:s:); { pmulc  ( m_test.css) (:s:) <bychunk> /[[:graph:]]+/  [:_dw:]   ; output /Likely result: \n:*:s:\n/} alius { output / Unsure result \n:*:s:\n/ } }' <<-EOF
+build/crm '-{ isolate (:s:); { pmulc  ( m_test.css) (:s:) <bychunk> /[[:graph:]]+/  [:_dw:]   ; output /Likely result: \n:*:s:\n/} alius { output / Unsure result \n:*:s:\n/ } }' <<-EOF
 So she was considering, in her own mind (as well as she could, for the
 hot day made her feel very sleepy and stupid), whether the pleasure of
 making a daisy-chain would be worth the trouble of getting up and
@@ -629,7 +629,7 @@ picking the daisies, when suddenly a White Rabbit with pink eyes ran
 close by her.
 EOF
 
-./crm114 '-{ isolate (:s:); { pmulc  ( m_test.css) (:s:) <bychunk> /[[:graph:]]+/  [:_dw:]   ; output /Likely result: \n:*:s:\n/} alius { output / Unsure result \n:*:s:\n/ } }' <<-EOF
+build/crm '-{ isolate (:s:); { pmulc  ( m_test.css) (:s:) <bychunk> /[[:graph:]]+/  [:_dw:]   ; output /Likely result: \n:*:s:\n/} alius { output / Unsure result \n:*:s:\n/ } }' <<-EOF
     Fillet of a fenny snake,
     In the cauldron boil and bake;
     Eye of newt and toe of frog,
@@ -640,38 +640,38 @@ EOF
     Like a hell-broth boil and bubble.
 EOF
 
-./crm114 '-{ isolate (:s:); { pmulc  ( m_test.css) (:s:) <bychunk> /[[:graph:]]+/  [:_dw:]   ; output /Likely result: \n:*:s:\n/} alius { output / Unsure result \n:*:s:\n/ } }' <<-EOF
+build/crm '-{ isolate (:s:); { pmulc  ( m_test.css) (:s:) <bychunk> /[[:graph:]]+/  [:_dw:]   ; output /Likely result: \n:*:s:\n/} alius { output / Unsure result \n:*:s:\n/ } }' <<-EOF
 EOF
 
 rm -f m_test.css
 rm -f a_test.css
 
-./crm114 '-{window; output /\n**** Principal Component Analysis (PCA) unigram classifier \n/}'
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < pca unigram unique > (m_test.css) /[[:graph:]]+/; liaf}' < Macbeth_Act_IV.txt
+build/crm '-{window; output /\n**** Principal Component Analysis (PCA) unigram classifier \n/}'
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < pca unigram unique > (m_test.css) /[[:graph:]]+/; liaf}' < texts/Macbeth_Act_IV.txt
 
 
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < pca unigram refute unique > (m_test.css) /[[:graph:]]+/; liaf }' < Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < pca unigram refute unique > (m_test.css) /[[:graph:]]+/; liaf }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
 
-./crm114 '-{ isolate (:s:); {classify < pca unigram unique > ( m_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{ isolate (:s:); {classify < pca unigram unique > ( m_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
 
-./crm114 '-{ isolate (:s:); {classify < pca unigram unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify < pca unigram unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
 
 rm -f m_test.css
 
-./crm114 '-{window; output /\n**** Principal Component Analysis (PCA) classifier \n/}'
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < pca unique > (m_test.css) /[[:graph:]]+/; liaf}' < Macbeth_Act_IV.txt
-./crm114 '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < pca unique refute > (m_test.css) /[[:graph:]]+/; liaf }' < Alice_In_Wonderland_Chap_1_And_2.txt
+build/crm '-{window; output /\n**** Principal Component Analysis (PCA) classifier \n/}'
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < pca unique > (m_test.css) /[[:graph:]]+/; liaf}' < texts/Macbeth_Act_IV.txt
+build/crm '-{ match <fromend> (:one_paragraph:) /[[:graph:]]+.*?\n\n/; learn [:one_paragraph:] < pca unique refute > (m_test.css) /[[:graph:]]+/; liaf }' < texts/Alice_In_Wonderland_Chap_1_And_2.txt
 
-./crm114 '-{ isolate (:s:); {classify < pca unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
+build/crm '-{ isolate (:s:); {classify < pca unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:]   ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ } }' <<-EOF
 when suddenly a White Rabbit with pink eyes ran close to her.
 EOF
 
-./crm114 '-{ isolate (:s:); {classify < pca unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
+build/crm '-{ isolate (:s:); {classify < pca unique > ( m_test.css | a_test.css | m_vs_a_test.css ) (:s:) /[[:graph:]]+/ /0 0 100 1e-3 1 0.5 1/ [:_dw:] ; output / type M \n:*:s:\n/} alius { output / type A \n:*:s:\n/ }}' <<-EOF
     Double, double toil and trouble;
     Fire burn, and cauldron bubble.
 EOF
@@ -679,7 +679,7 @@ EOF
 rm -f m_test.css
 rm -f a_test.css
 
-./crm114 alternating_example_pca.crm
+build/crm tests/alternating_example_pca.crm
 
 rm -f m_test.css
 rm -f a_test.css

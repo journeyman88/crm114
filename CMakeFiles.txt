@@ -81,3 +81,35 @@ set(manual_pages
 	man/cssutil.1
 	man/cssdiff.1
 )
+
+
+# scripts
+set(crm_scripts
+	scripts/calc.crm
+	scripts/classifymail.crm
+	scripts/gatlingsort.crm
+	scripts/learntest.crm
+	scripts/mailfilter.crm
+	scripts/maillib.crm
+	scripts/mailreaver.crm
+	scripts/mailtrainer.crm
+	scripts/pad.crm
+	scripts/rewriteutil.crm
+	scripts/shroud.crm
+	scripts/shuffle.crm
+	scripts/tenfold_validate.crm
+)
+
+set(crm_docs
+	CLASSIFY_DETAILS.txt
+	COLOPHON.txt
+	CRM114_Mailfilter_HOWTO.txt
+	FAQ.txt
+	GPL_License.txt
+	INTRO.txt
+	KNOWNBUGS.txt
+	QUICKREF.txt
+	README
+	reto_procmailrc.recipe
+	THINGS_TO_DO.txt
+)
