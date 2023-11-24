@@ -1,0 +1,104 @@
+.\" Copyright (c) 2004 William S\&. Yerazunis\&. Manpage typesetting by Joost van Baal and Shalendra Chhabra
+.TH "cssdiff" 1 "19 Aug 2004" "cssdiff @crm114_VERSION@" "CRM114"
+.po 2m
+.de ZI
+.\" Zoem Indent/Itemize macro I.
+.br
+'in +\\$1
+.nr xa 0
+.nr xa -\\$1
+.nr xb \\$1
+.nr xb -\\w'\\$2'
+\h'|\\n(xau'\\$2\h'\\n(xbu'\\
+..
+.de ZJ
+.br
+.\" Zoem Indent/Itemize macro II.
+'in +\\$1
+'in +\\$2
+.nr xa 0
+.nr xa -\\$2
+.nr xa -\\w'\\$3'
+.nr xb \\$2
+\h'|\\n(xau'\\$3\h'\\n(xbu'\\
+..
+.if n .ll -2m
+.am SH
+.ie n .in 4m
+.el .in 8m
+..
+.SH NAME
+\fBcssdiff\fP \- generate a difference summary of two \&.css files
+.SH SYNOPSIS
+
+\fBcssdiff\fP
+[cssfile 1]
+[cssfile 2]
+.SH WARNING
+This man page is taken from an older CRM114 version.  It is provided as a
+convenience to Debian users and may not be up-to-date.  If you would like to
+update it, please send appropriate patches to the Debian bug tracking system.
+.SH DESCRIPTION
+\fBcssdiff\fP is a special-purpose utility to measure the distance
+between the classes represented by cssfile1 and cssfile2\&.
+The summary result output tells how many features were in each
+of the \&.css files, how many features appeared in both (balanced overlap),
+how many features appeared only in one (or unbalanced overlaps), and
+how often the feature set of one \&.css file strictly dominated the
+feature set of another \&.css file\&.
+This set of metrics provides an intuitive way to determine the
+similarity (or dissimilarity) of two classes represented as
+\&.css files\&.
+When using the CRM114 spamfilter, it can be used to find out how easy it will
+be for CRM114 to differentiate spam from nonspam with your \&.css files\&.
+\fBcssdiff\fP prints a report like e\&.g\&.
+
+.di ZV
+.in 0
+.nf \fC
+   Sparse spectra file spam\&.css has 1048577 bins total
+   Sparse spectra file nonspam\&.css has 1048577 bins total
+
+   File 1 total features            :      1605968
+   File 2 total features            :      1045152
+
+   Similarities between files       :       142039
+   Differences between files        :      1279964
+
+   File 1 dominates file 2          :      1463929
+   File 2 dominates file 1          :       903113
+.fi \fR
+.in
+.di
+.ne \n(dnu
+.nf \fC
+.ZV
+.fi \fR
+
+Note that in this case there\&'s a big difference between the two files; in this
+case there are about 10 times as many differences between the two files as
+there are similarities\&.
+.SH OPTIONS
+There are no options to cssdiff\&.
+.SH SHORTCOMINGS
+Note that \fBcssdiff\fP as of version 20040816 is NOT capable of dealing
+with the CRM114 Winnow classifier\&'s floating-point \&.cow files\&. Worse,
+\fBcssdiff\fP is unaware of it\&'s shortcomings, and will try anyway\&. The only
+recourse is to be aware of this issue and not use \fBcssdiff\fP on Winnow
+classifier floating point \&.cow format files\&.
+.SH HOMEPAGE AND REPORTING BUGS
+http://crm114\&.sourceforge\&.net/
+.SH VERSION
+This manpage: $Id: cssdiff\&.azm,v 1\&.5 2004/08/19 09:06:44 vanbaal Exp $
+This manpage describes cssdiff as shipped with crm114 version
+20040816\&.BlameClockworkOrange\&.
+.SH AUTHOR
+William S\&. Yerazunis\&. Manpage typesetting by Joost van Baal and Shalendra Chhabra
+.SH COPYRIGHT
+Copyright (C) 2001, 2002, 2003, 2004 William S\&. Yerazunis\&.
+This is free software, copyrighted under the FSF\&'s GPL\&.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE\&. See the file COPYING for more details\&.
+.SH SEE ALSO
+\fBcssutil(1)\fP, \fBcssmerge(1)\fP,
+\fBcrm(1)\fP, \fBcssmerge(1)\fP

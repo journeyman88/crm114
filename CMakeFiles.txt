@@ -1,0 +1,83 @@
+# cssutil sources
+set(cssutil_src
+	src/cssutil.c 
+	src/crm_css_maintenance.c 
+	src/crm_util_errorhandlers.c 
+	src/crm_str_funcs.c
+)
+
+# cssdiff sources
+set(cssdiff_src
+	src/cssdiff.c
+	src/crm_util_errorhandlers.c 
+	src/crm_str_funcs.c
+)
+
+# cssmerge sources
+set(cssmerge_src
+	src/cssmerge.c 
+	src/crm_util_errorhandlers.c 
+	src/crm_str_funcs.c
+)
+
+# osbf-util sources
+set(osbf_util_src
+	src/osbf-util.c 
+	src/crm_osbf_maintenance.c
+	src/crm_util_errorhandlers.c 
+	src/crm_str_funcs.c
+)
+
+# crm sources
+set(crm_src
+	src/crm_main.c 
+	src/crm_compiler.c 
+	src/crm_errorhandlers.c 
+	src/crm_math_exec.c 
+	src/crm_var_hash_table.c 
+	src/crm_expandvar.c 
+	src/crm_stmt_parser.c 
+	src/crm_vector_tokenize.c 
+	src/crm_expr_alter.c 
+	src/crm_expr_match.c 
+	src/crm_css_maintenance.c 
+	src/crm_markovian.c 
+	src/crm_osb_bayes.c 
+	src/crm_osb_hyperspace.c 
+	src/crm_correlate.c 
+	src/crm_osb_winnow.c 
+	src/crm_winnow_maintenance.c 
+	src/crm_osbf_bayes.c 
+	src/crm_osbf_maintenance.c 
+	src/crm_bit_entropy.c 
+	src/crm_neural_net.c 
+	src/crm_expr_clump.c 
+	src/crm_expr_window.c
+	src/crm_expr_isolate.c 
+	src/crm_expr_file_io.c 
+	src/crm_expr_syscall.c 
+	src/crm_expr_classify.c 
+	src/crm_expr_translate.c 
+	src/crm_exec_engine.c 
+	src/crm_debugger.c 
+	src/crm_str_funcs.c 
+	src/crm_preprocessor.c 
+	src/crmregex_tre.c 
+	src/crm_stats.c
+	src/crm_expr_sks.c 
+	src/crm_svm_matrix_util.c 
+	src/crm_svm_quad_prog.c 
+	src/crm_svm_matrix.c 
+	src/crm_svm_lib_fncts.c 
+	src/crm_svm.c 
+	src/crm_pca_lib_fncts.c 
+	src/crm_pca.c 
+	src/crm_fast_substring_compression.c
+)
+
+# manual pages
+set(manual_pages
+	man/crm.1
+	man/cssutil.1
+	man/cssdiff.1
+)

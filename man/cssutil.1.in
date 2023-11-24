@@ -1,0 +1,240 @@
+.\" Copyright (c) 2004 William S\&. Yerazunis\&. Manpage typesetting by Joost van Baal and Shalendra Chhabra
+.TH "cssutil" 1 "19 Aug 2004" "cssutil @crm114_VERSION@" "CRM114"
+.po 2m
+.de ZI
+.\" Zoem Indent/Itemize macro I.
+.br
+'in +\\$1
+.nr xa 0
+.nr xa -\\$1
+.nr xb \\$1
+.nr xb -\\w'\\$2'
+\h'|\\n(xau'\\$2\h'\\n(xbu'\\
+..
+.de ZJ
+.br
+.\" Zoem Indent/Itemize macro II.
+'in +\\$1
+'in +\\$2
+.nr xa 0
+.nr xa -\\$2
+.nr xa -\\w'\\$3'
+.nr xb \\$2
+\h'|\\n(xau'\\$3\h'\\n(xbu'\\
+..
+.if n .ll -2m
+.am SH
+.ie n .in 4m
+.el .in 8m
+..
+.SH NAME
+\fBcssutil\fP \- utility to measure and manipulate CRM114 statistics files\&.
+.SH SYNOPSIS
+
+\fBcssutil\fP
+[\&.css file]
+[OPTIONS]
+.SH WARNING
+This man page is taken from an older CRM114 version.  It is provided as a
+convenience to Debian users and may not be up-to-date.  If you would like to
+update it, please send appropriate patches to the Debian bug tracking system.
+.SH OPTIONS
+
+.ZI 3m "\fB-h\fP"
+\&
+.br
+print basic help
+.in -3m
+
+.ZI 3m "\fB-b\fP"
+\&
+.br
+brief - print only a summary of the statistics of the
+\&.css file (otherwise, prints a full list of how many bins are in each counter
+state)
+.in -3m
+
+.ZI 3m "\fB-q\fP"
+\&
+.br
+quiet mode; no warning messages
+.in -3m
+
+.ZI 3m "\fB-r\fP"
+\&
+.br
+report then exit (no menu)\&. The default if -r is not
+specified is to drop into a command-menu based system\&.
+.in -3m
+
+.ZI 3m "\fB-s\fP"
+\&
+.br
+if no css file found, create new one with this
+many buckets\&. Default is 1 million + 1 buckets
+.in -3m
+
+.ZI 3m "\fB-S\fP"
+\&
+.br
+same as -s, but round up to next 2^n + 1 boundary\&.
+.in -3m
+
+.ZI 3m "\fB-v\fP"
+\&
+.br
+print version and exit
+.in -3m
+
+.ZI 3m "\fB-D\fP"
+\&
+.br
+dump css file to stdout in the architecture-independent
+CSV format, suitable for reloading with -R in an architecture\&. (note that \&.css
+files are a hardware-architecture dependent format)
+.in -3m
+
+.ZI 3m "\fB-R\fP"
+\&
+.br
+create and restore css from the
+hardware-architecture independent CSV format file (reads from stdin if csv-file
+is not supplied\&.
+.in -3m
+.SH THE COMMAND MENU
+If -r is not supplied, a menu appears with the following options\&. Note that
+all of these operations are "in place" and surgical- there is NO undo
+functionality\&. Wise users will make a backup copy of all \&.css files before
+using cssutil to alter values\&.
+
+.ZI 3m "\fB-Z\fP"
+\&
+.br
+zero all bins at or below a value\&. This is useful for
+deleting all small-count features from the \&.css statistics files leaving
+higher-count features untouched\&.
+.in -3m
+
+.ZI 3m "\fB-S\fP"
+\&
+.br
+subtract a constant from all bins - this rolls all
+features back a constant amount\&.
+.in -3m
+
+.ZI 3m "\fB-D\fP"
+\&
+.br
+divide all bins by a constant - this rolls features back
+linearly, rather than in scalar fashion\&.
+.in -3m
+
+.ZI 3m "\fB-R\fP"
+\&
+.br
+rescan - regenerate the statistics output that was
+initially printed\&.
+.in -3m
+
+.ZI 3m "\fB-P\fP"
+\&
+.br
+pack - re-slot features to optimize access time\&.
+.in -3m
+
+.ZI 3m "\fB-Q\fP"
+\&
+.br
+- gracefully exit, saving changes\&. (note that since these
+operations are in-place and surgical, there is no option to exit without saving
+changes\&.
+.in -3m
+.SH DESCRIPTION
+\fBcssutil\fP is a general utility to manipulate and measure the \&.css format
+statistics files used by CRM114\&'s Markovian and OSB classifiers\&. The biggest
+uses are to check the available space remaining in a \&.css file, to selectively
+groom a \&.css file, and to port architecture-dependent \&.css files to and from an
+ASCII CSV format, which is architecture independent\&.
+The \fBcssutil\fP program can be used to create information-less
+\&.css files:
+
+.di ZV
+.in 0
+.nf \fC
+     cssutil -b -r spam\&.css
+     cssutil -b -r nonspam\&.css
+.fi \fR
+.in
+.di
+.ne \n(dnu
+.nf \fC
+.ZV
+.fi \fR
+
+\&. This creates the full-size files \&./spam\&.css and \&./nonspam\&.css,
+holding no information\&.
+The \fBcssutil\fP program can be used check that the \&.css files are reasonable\&.
+Invoke \fBcssutil\fP as:
+
+.di ZV
+.in 0
+.nf \fC
+    cssutil -b -r spam\&.css
+    cssutil -b -r nonspam\&.css
+.fi \fR
+.in
+.di
+.ne \n(dnu
+.nf \fC
+.ZV
+.fi \fR
+
+You should get back a report something like this:
+
+.di ZV
+.in 0
+.nf \fC
+     Sparse spectra file spam\&.css statistics:
+
+     Total available buckets          :      1048576
+     Total buckets in use             :       506987
+     Total hashed datums in file      :      1605968
+     Average datums per bucket        :         3\&.17
+     Maximum length of overflow chain :           39
+     Average length of overflow chain :         1\&.84
+     Average packing density          :         0\&.48
+.fi \fR
+.in
+.di
+.ne \n(dnu
+.nf \fC
+.ZV
+.fi \fR
+
+Note that the packing density is 0\&.48; this means that this \&.css file is about
+half full of features\&. Once the packing density gets above about 0\&.9, you will
+notice that CRM114 will take longer to process text\&. The penalty is small
+below packing densities below about 0\&.95 and only about a factor of 2 at 0\&.97 \&.
+Best is to keep it below \&.7 to \&.8\&.
+.SH SHORTCOMINGS
+Note that \fBcssutil\fP as of version 20040816 is NOT capable of dealing with the
+CRM114 Winnow classifier\&'s floating-point \&.cow files\&. Worse, \fBcssutil\fP is
+unaware of it\&'s shortcomings, and will try anyway\&. The only recourse is to be
+aware of this issue and not use \fBcssutil\fP on a Winnow classifier floating point
+\&.cow format file\&.
+.SH HOMEPAGE AND REPORTING BUGS
+http://crm114\&.sourceforge\&.net/
+.SH VERSION
+This manpage: $Id: cssutil\&.azm,v 1\&.4 2004/08/19 09:23:24 vanbaal Exp $
+This manpage describes cssutil as shipped with crm114 version
+20040816\&.BlameClockworkOrange\&.
+.SH AUTHOR
+William S\&. Yerazunis\&. Manpage typesetting by Joost van Baal and Shalendra Chhabra
+.SH COPYRIGHT
+Copyright (C) 2001, 2002, 2003, 2004 William S\&. Yerazunis\&. This is free
+software, copyrighted under the FSF\&'s GPL\&. There is NO warranty; not even for
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE\&. See the file COPYING for
+more details\&.
+.SH SEE ALSO
+\fBcssmerge(1)\fP, \fBcssdiff(1)\fP,
+\fBcrm(1)\fP
