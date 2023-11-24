@@ -70,8 +70,8 @@ endforeach()
 install(FILES crm114-mode.el DESTINATION ${CMAKE_INSTALL_FULL_DATAROOTDIR}/emacs/site-lisp/)
 
 # docs & examples
-install(DIRECTORY examples DESTINATION ${CMAKE_INSTALL_FULL_DOCDIR})
 foreach(crm_doc ${crm_docs})
-	install(FILES ${crm_doc} DESTINATION ${CMAKE_INSTALL_FULL_DOCDIR})
+	install(FILES ${crm_doc} DESTINATION ${CMAKE_INSTALL_FULL_DATAROOTDIR}/doc/crm114)
 endforeach()
+install(DIRECTORY examples DESTINATION ${CMAKE_INSTALL_FULL_DATAROOTDIR}/doc/crm114/)
 #SYSCONFDIR
