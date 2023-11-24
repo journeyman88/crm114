@@ -109,7 +109,7 @@ set(crm_docs
 	INTRO.txt
 	KNOWNBUGS.txt
 	QUICKREF.txt
-	README
+	README.txt
 	ext/reto_procmailrc.recipe
 	THINGS_TO_DO.txt
 )
