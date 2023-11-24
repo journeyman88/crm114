@@ -27,7 +27,7 @@
 #include <sys/types.h>
 
 // Only TRE regex library is currently supported
-#include <tre/regex.h>
+#include <tre/tre.h>
 
 // Normally declared from tre/regex.h
 //#ifndef REG_LITERAL

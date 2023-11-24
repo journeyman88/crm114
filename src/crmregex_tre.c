@@ -90,7 +90,7 @@ int crm_regcomp (regex_t *preg, char *regex, long regex_len, int cflags)
   //    matches the same thing).
   if (regex_len == 0)
     {
-      return (regncomp (preg, "()", 2, cflags));
+      return (tre_regncomp (preg, "()", 2, cflags));
     };
 
   //   Are we cacheing compiled regexes?  Maybe not...
@@ -99,7 +99,7 @@ int crm_regcomp (regex_t *preg, char *regex, long regex_len, int cflags)
   if (internal_trace)
     fpe_regex("compiling regex ", regex, regex_len, "\n");
 
-  return ( regncomp (preg, regex, regex_len, cflags));
+  return ( tre_regncomp (preg, regex, regex_len, cflags));
 
 #else	// !CRM_REGEX_CACHESIZE == 0
 
@@ -164,7 +164,7 @@ int crm_regcomp (regex_t *preg, char *regex, long regex_len, int cflags)
 	new.regex_len = regex_len;
 	new.cflags = cflags;
 	new.status =
-	  regncomp (&new.reg, new.regex, new.regex_len, new.cflags);
+	  tre_regncomp (&new.reg, new.regex, new.regex_len, new.cflags);
 
 	// i is the bucket to throw away, if any
 	// i may or may not be where new stuff will go
@@ -172,7 +172,7 @@ int crm_regcomp (regex_t *preg, char *regex, long regex_len, int cflags)
 	  {
 	    if (internal_trace)
 	      fpe_bucket("discarding ", i);
-	    regfree (&regex_cache[i].reg);
+	    tre_regfree (&regex_cache[i].reg);
 	    free (regex_cache[i].regex);
 	  }
       }
@@ -223,7 +223,7 @@ int crm_regexec ( regex_t *preg, char *string, long string_len,
   if (aux_string == NULL
       || strlen (aux_string) < 1)
     {
-      return (regnexec (preg, string, string_len, nmatch, pmatch, eflags));
+      return (tre_regnexec (preg, string, string_len, nmatch, pmatch, eflags));
     }
   else
     {
@@ -247,7 +247,7 @@ int crm_regexec ( regex_t *preg, char *string, long string_len,
 		 pblock.cost_del);
 
       //  now we can run the actual match
-      i = reganexec (preg, string, string_len, &mblock, pblock, eflags);
+      i = tre_reganexec (preg, string, string_len, &mblock, pblock, eflags);
       if (user_trace)
 	fprintf (stderr, "approximate Regex match returned %d .\n", i);
       return (i);
@@ -259,7 +259,7 @@ size_t crm_regerror (int errorcode, regex_t *preg, char *errbuf,
 		     size_t errbuf_size)
 
 {
-  return (regerror (errorcode, preg, errbuf, errbuf_size));
+  return (tre_regerror (errorcode, preg, errbuf, errbuf_size));
 };
 
 void crm_regfree (regex_t *preg)
@@ -269,7 +269,7 @@ void crm_regfree (regex_t *preg)
   //  till and unless we decache, so crm_regfree is a noop.
   return;
 #else	// !CRM_REGEX_CACHESIZE > 0
-   return (regfree (preg));
+   return (tre_regfree (preg));
 #endif	// !CRM_REGEX_CACHESIZE > 0
 };
 

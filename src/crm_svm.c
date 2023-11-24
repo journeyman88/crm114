@@ -2576,8 +2576,6 @@ int crm_svm_learn(CSL_CELL *csl, ARGPARSE_BLOCK *apb, char *txtptr,
  * INCLUDING FLAGS USED FOR LEARN!
  *****************************************************************************/
 
-int SVM_DEBUG_MODE;
-
 int crm_svm_classify(CSL_CELL *csl, ARGPARSE_BLOCK *apb, char *txtptr,
 		  long txtstart, long txtlen) {
 

@@ -14,8 +14,6 @@
 #include "crm_svm_matrix.h"
 #include "crm_svm_matrix_util.h"
 
-int MATR_DEBUG_MODE;
-
 /*****************************************************************************
  *This is a matrix/vector library.
  *The intent of it is to keep all matrix operations out of the algorithms.

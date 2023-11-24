@@ -19,6 +19,8 @@
  *matrix library, but possibly more general.
  ************************************************************************/
 
+int MATR_DEBUG_MODE;
+
 /***********************Expanding Array Functions***************************/
 
 //Static expanding array function declarations

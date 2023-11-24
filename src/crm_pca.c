@@ -1858,8 +1858,6 @@ int crm_pca_learn(CSL_CELL *csl, ARGPARSE_BLOCK *apb, char *txtptr,
  * INCLUDING FLAGS USED FOR LEARN!
  *****************************************************************************/
 
-int PCA_DEBUG_MODE;
-
 int crm_pca_classify(CSL_CELL *csl, ARGPARSE_BLOCK *apb, char *txtptr,
 		  long txtstart, long txtlen) {
 

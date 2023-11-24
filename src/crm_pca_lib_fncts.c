@@ -14,6 +14,8 @@
 #include "crm_svm_matrix.h"
 #include "crm_pca_lib_fncts.h"
 
+int PCA_DEBUG_MODE;
+
 /*******************************************************************************************
  *This is a variation of the VonMises power algorithm for sparse matrices.  Let us have
  *x_1, x_2,.., x_n examples with column means xbar.  Then the VonMises update is:

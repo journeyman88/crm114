@@ -13,6 +13,8 @@
 // Copyright 2009 William S. Yerazunis.
 // This file is under GPLv3, as described in COPYING.
 
+int SVM_DEBUG_MODE;
+
 //static function declarations
 static SVM_Solution *svm_solve_init_sol(Matrix *Xy, Vector *st_theta, 
 					double weight, int max_train_val);
