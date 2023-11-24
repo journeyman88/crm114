@@ -58,20 +58,22 @@ install(TARGETS crm DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 # man pages
 foreach(manpage ${manual_pages})
-	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${manpage} DESTINATION ${CMAKE_INSTALL_FULL_MANDIR}/man1)
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${manpage} DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
 endforeach()
 
 # scripts
 foreach(crm_script ${crm_scripts})
-	install(FILES ${crm_script} DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/crm114)
+	install(FILES ${crm_script} DESTINATION ${CMAKE_INSTALL_LIBDIR}/crm114)
 endforeach()
 
 # emacs
-install(FILES crm114-mode.el DESTINATION ${CMAKE_INSTALL_FULL_DATAROOTDIR}/emacs/site-lisp/)
+install(FILES crm114-mode.el DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/emacs/site-lisp/)
 
 # docs & examples
 foreach(crm_doc ${crm_docs})
-	install(FILES ${crm_doc} DESTINATION ${CMAKE_INSTALL_FULL_DATAROOTDIR}/doc/crm114)
+	install(FILES ${crm_doc} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/doc/crm114)
 endforeach()
-install(DIRECTORY examples DESTINATION ${CMAKE_INSTALL_FULL_DATAROOTDIR}/doc/crm114/)
-#SYSCONFDIR
+install(DIRECTORY examples DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/doc/crm114)
+
+# conf file
+install(FILES mailfilter.cf DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/crm114)
