@@ -12,7 +12,7 @@
 # up to you.
 #
 
-CRM="/usr/local/bin/crm"
+CRM="/usr/bin/crm"
 CRMDIR="${HOME}/.crm114"
 UTRACE=""                       # -t turns on crm script tracing
 

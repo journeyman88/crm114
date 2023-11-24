@@ -6,7 +6,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBTRE REQUIRED tre)
 
 include(CMakeFiles.txt)
-configure_file(crm114_config.h.in crm114_config.h)
+configure_file(config/crm114_config.h.in crm114_config.h)
 foreach(manpage ${manual_pages})
     configure_file(${manpage}.in ${manpage})
 endforeach()
@@ -67,7 +67,7 @@ foreach(crm_script ${crm_scripts})
 endforeach()
 
 # emacs
-install(FILES crm114-mode.el DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/emacs/site-lisp/)
+install(FILES ext/crm114-mode.el DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/emacs/site-lisp/)
 
 # docs & examples
 foreach(crm_doc ${crm_docs})
@@ -76,4 +76,4 @@ endforeach()
 install(DIRECTORY examples DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/doc/crm114)
 
 # conf file
-install(FILES mailfilter.cf DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/crm114)
+install(FILES config/mailfilter.cf DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/crm114)
