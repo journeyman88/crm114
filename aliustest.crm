@@ -1,0 +1,23 @@
+#! /usr/bin/crm
+#
+#	aliustest.crm - test alius statement for foo and bar
+
+# Copyright 2009 William S. Yerazunis.
+# This file is under GPLv3, as described in COPYING.
+{
+	{
+		output /checking for a foo.../
+		match /foo/
+		output /Found a foo :*:_nl:/
+	}
+	alius
+	{
+		output /no foo... checking for bar.../
+		match /bar/
+		output /Found a bar.  :*:_nl:/
+	}
+	alius
+	{
+		output /neither foo nor bar :*:_nl:/
+	}
+}
